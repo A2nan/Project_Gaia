@@ -24,13 +24,21 @@ const props = defineProps<FullScreenProps>()
 
 <style scoped>
 .full-screen-wrapper {
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  position: relative;
+}
+
+:global(html, body) {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 </style>
