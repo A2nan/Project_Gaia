@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Compteur WebSocket</title>
+</head>
+<body>
+    <h1>Compteur : <span id="counter">0</span></h1>
+    <p>Prochain +1 dans : <span id="timer">5</span> secondes</p>
+
+    <script>
+        let counter = 0;
+        let timeLeft = 5;
+        const counterElement = document.getElementById('counter');
+        const timerElement = document.getElementById('timer');
+
+        // Connexion au serveur WebSocket
+        const socket = new WebSocket('ws://10.0.3.241:8080');
+
+        socket.onopen = () => {
+            console.log('Connecté au serveur WebSocket');
+        };
+
+        socket.onerror = (error) => {
+            console.error("Erreur WebSocket :", error);
+        };
+
+        function updateTimer() {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            if (timeLeft <= 0) {
+                incrementCounter();
+                timeLeft = 5;
+            }
+        }
+
+        function incrementCounter() {
+            counter++;
+            counterElement.textContent = counter;
+            if (socket.readyState === WebSocket.OPEN) {
+                socket.send(counter.toString()); // Envoie la valeur au serveur
+            }
+        }
+
+        // Met à jour le timer toutes les secondes
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>

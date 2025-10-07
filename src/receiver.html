@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Récepteur WebSocket</title>
+</head>
+<body>
+    <h1>Valeur du compteur : <span id="remoteCounter">0</span></h1>
+    <script>
+        const socket = new WebSocket('ws://10.0.3.241:8080');
+        const remoteCounterElement = document.getElementById('remoteCounter');
+
+        socket.onmessage = (event) => {
+            remoteCounterElement.textContent = event.data;
+        };
+
+        socket.onerror = (error) => {
+            console.error("Erreur WebSocket :", error);
+            remoteCounterElement.textContent = "Erreur de connexion";
+        };
+    </script>
+</body>
+</html>
