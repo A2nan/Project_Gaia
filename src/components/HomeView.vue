@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
 import backgroundImage from '@/components/images/Background.png'
 
 const router = useRouter()
@@ -16,21 +17,14 @@ function startGame() {
 </script>
 
 <template>
-  <div
-    class="home-container"
-    :style="{
-      background: `url(${backgroundImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-    }"
-  >
+  <FullScreenWrapper :background="backgroundImage">
     <header class="home-header">
-      <h1>Escape Game : Arts & Créativité</h1>
+      <h1>Machiavel.exe</h1>
+      <h2>Le verrou de Florence</h2>
     </header>
 
     <div v-if="!showInstructions" class="intro-screen">
-      <button class="start-button" @click="nextStep">Suivant</button>
+      <button class="start-button" @click="nextStep">Commencer l'Aventure</button>
     </div>
 
     <div v-else class="instructions-screen">
@@ -49,37 +43,29 @@ function startGame() {
       </section>
 
       <div class="start-button-container">
-        <button class="start-button" @click="startGame">🖌️ Commencer l'Aventure</button>
+        <button class="start-button" @click="startGame">Suivant</button>
       </div>
     </div>
-  </div>
+  </FullScreenWrapper>
 </template>
 
 <style scoped>
-.home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  width: 100%;
-  padding: 2rem;
-  text-align: center;
-  font-family: 'Cursive', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden;
-  color: #fff;
-  transition: all 0.8s ease;
-}
-
 .home-header h1 {
-  font-size: 3rem;
+  font-size: 5rem;
   color: #f9f2f0;
   text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
   margin-bottom: 0.5rem;
   font-family: 'Brush Script MT', cursive;
   margin-top: -10rem;
 }
-
+.home-header h2 {
+  font-size: 5rem;
+  color: #f9f2f0;
+  text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
+  margin-bottom: 0.5rem;
+  font-family: 'Brush Script MT', cursive;
+  margin-top: -3rem;
+}
 /* Carte instructions */
 .instructions {
   background-color: rgba(0, 0, 0, 0.5); /* noir semi-transparent */

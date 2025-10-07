@@ -1,5 +1,22 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
+import backgroundImage from '@/components/images/Background3.jpg'
+
+const player1Hint = ' La première lettre est A'
+const player2Hint = ' La dernière lettre est E'
+
+const guess = ref('')
+const result = ref<boolean | null>(null)
+const finalWord = 'APPLE'
+
+function checkGuess() {
+  result.value = guess.value.toUpperCase() === finalWord
+}
+</script>
+
 <template>
-  <main class="captain-container">
+  <FullScreenWrapper :background="backgroundImage">
     <div class="captain-panel">
       <header class="header">
         <h1 class="title">🧭 Poste du Capitaine</h1>
@@ -38,41 +55,10 @@
         </div>
       </transition>
     </div>
-  </main>
+  </FullScreenWrapper>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const player1Hint = ' La première lettre est A'
-const player2Hint = ' La dernière lettre est E'
-
-const guess = ref('')
-const result = ref<boolean | null>(null)
-const finalWord = 'APPLE'
-
-function checkGuess() {
-  result.value = guess.value.toUpperCase() === finalWord
-}
-</script>
-
 <style scoped>
-/* Arrière-plan immersif */
-.captain-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at center, #00111f, #000);
-  background-image: url('@/components/images/Background3.jpg');
-  background-size: cover;
-  background-position: center;
-  text-align: center;
-  color: #fff;
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 1px;
-}
-
 .captain-panel {
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(10px);

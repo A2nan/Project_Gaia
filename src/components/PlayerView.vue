@@ -1,5 +1,23 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
+import backgroundImage from '@/components/images/Background3.jpg'
+
+// Props
+const props = defineProps<{ player: number }>()
+
+// Hints pour chaque joueur
+const hints: Record<number, string> = {
+  1: 'La première lettre est A',
+  2: 'La dernière lettre est E',
+}
+
+// Hint calculé pour ce joueur
+const hint = computed(() => hints[props.player] ?? 'Indice non disponible')
+</script>
+
 <template>
-  <main class="player-container">
+  <FullScreenWrapper :background="backgroundImage">
     <div class="player-panel">
       <header class="header">
         <h1 class="title">Joueur {{ props.player }}</h1>
@@ -17,41 +35,10 @@
         <p>💡 Partage ton indice avec le capitaine pour qu’il puisse trouver le mot final.</p>
       </section>
     </div>
-  </main>
+  </FullScreenWrapper>
 </template>
 
-<script setup lang="ts">
-import { computed } from 'vue'
-
-// Props
-const props = defineProps<{ player: number }>()
-
-// Hints pour chaque joueur
-const hints: Record<number, string> = {
-  1: 'La première lettre est A',
-  2: 'La dernière lettre est E',
-}
-
-// Hint calculé pour ce joueur
-const hint = computed(() => hints[props.player] ?? 'Indice non disponible')
-</script>
-
 <style scoped>
-/* Fond et container */
-.player-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: radial-gradient(circle at center, #00111f, #000);
-  background-image: url('@/components/images/Background3.jpg');
-  background-size: cover;
-  background-position: center;
-  font-family: 'Orbitron', sans-serif;
-  color: #fff;
-  text-align: center;
-}
-
 .player-panel {
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(10px);
