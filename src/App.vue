@@ -1,12 +1,15 @@
 <template>
   <div class="container">
+    <!-- Top bar globale (bouton quitter + chrono + numéro de session) -->
+    <SessionTopBar />
+
     <!-- Vue actuelle selon la route -->
     <router-view></router-view>
   </div>
 </template>
 
 <script setup lang="ts">
-/* Plus besoin de gérer currentView ici, Vue Router s'en charge */
+import SessionTopBar from '@/components/SessionTopBar.vue'
 </script>
 
 <style>

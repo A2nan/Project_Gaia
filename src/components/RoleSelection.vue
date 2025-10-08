@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import { ref, onBeforeUnmount } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useMultiplayer } from '@/composables/useMultiplayer'
 import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
 import backgroundImage from '@/components/images/Background6.png'
 import LeaveRoomButton from '@/components/LeaveRoomButton.vue'
 
 const router = useRouter()
+const { currentRoomCode, playerCount, joined, createRoom, joinRoom, leaveRoom } = useMultiplayer()
+const sessionNumber = ref('')
 const activeRole = ref<string | null>(null)
-const sessionNumber = ref<string>('') // code de salon entré ou généré
-const joined = ref(false)
-
-const currentRoomCode = ref<string | null>(null)
-const playerCount = ref<number>(0)
-
-let socket: WebSocket | null = null
 
 const roles = [
   {
@@ -40,85 +36,6 @@ const roles = [
   },
 ]
 
-// --- Log dans la console ---
-function logMessage(msg: string) {
-  console.log(`[WebSocket] ${msg}`)
-}
-
-// --- Connexion WebSocket ---
-function connect() {
-  socket = new WebSocket('ws://10.0.3.241:8080')
-  socket.onopen = () => logMessage('Connecté au serveur WebSocket')
-  socket.onmessage = (event) => {
-    const data = JSON.parse(event.data)
-    switch (data.type) {
-      case 'roomCreated':
-        currentRoomCode.value = data.roomCode
-        sessionNumber.value = data.roomCode
-        playerCount.value = data.playerCount
-        joined.value = true
-        logMessage(`Salon créé : ${data.roomCode}`)
-        break
-      case 'roomJoined':
-        currentRoomCode.value = data.roomCode
-        playerCount.value = data.playerCount
-        joined.value = true
-        logMessage(`Rejoint le salon : ${data.roomCode}`)
-        break
-      case 'roomLeft':
-        currentRoomCode.value = null
-        playerCount.value = 0
-        joined.value = false
-        logMessage(data.message)
-        break
-      case 'info':
-        logMessage(data.message)
-        if (data.playerCount !== undefined) playerCount.value = data.playerCount
-        break
-      case 'error':
-        logMessage(`Erreur : ${data.message}`)
-        break
-    }
-  }
-  socket.onerror = (error) => logMessage(`Erreur WebSocket : ${(error as any).message}`)
-  socket.onclose = () => logMessage('Déconnecté du serveur')
-}
-
-// --- Créer une session ---
-function createSession() {
-  if (!socket || socket.readyState !== WebSocket.OPEN) {
-    connect()
-    setTimeout(() => {
-      socket?.send(JSON.stringify({ type: 'createRoom' }))
-      logMessage('Création d’un nouveau salon...')
-    }, 300)
-  } else {
-    socket.send(JSON.stringify({ type: 'createRoom' }))
-    logMessage('Création d’un nouveau salon...')
-  }
-}
-
-// --- Rejoindre une session ---
-function joinSession() {
-  const code = sessionNumber.value.trim()
-  if (code === '') {
-    alert('Veuillez saisir un numéro de session valide.')
-    return
-  }
-
-  if (!socket || socket.readyState !== WebSocket.OPEN) {
-    connect()
-    setTimeout(() => {
-      socket?.send(JSON.stringify({ type: 'joinRoom', roomCode: code }))
-      logMessage(`Tentative de rejoindre le salon ${code}...`)
-    }, 300)
-  } else {
-    socket.send(JSON.stringify({ type: 'joinRoom', roomCode: code }))
-    logMessage(`Tentative de rejoindre le salon ${code}...`)
-  }
-}
-
-// --- Sélection des rôles ---
 function toggleRole(roleId: string) {
   activeRole.value = activeRole.value === roleId ? null : roleId
 }
@@ -127,24 +44,31 @@ function selectRole(route: string) {
   router.push(route)
 }
 
-onBeforeUnmount(() => {
-  if (socket) socket.close()
-})
+function handleCreate() {
+  createRoom()
+}
+
+function handleJoin() {
+  const code = sessionNumber.value.trim()
+  if (!code) {
+    alert('Veuillez saisir un numéro de session valide.')
+    return
+  }
+  joinRoom(code)
+}
 </script>
 
 <template>
   <FullScreenWrapper :background="backgroundImage">
-    <!-- Bouton Quitter visible seulement après avoir rejoint/créé une session -->
     <LeaveRoomButton
       v-if="joined"
       class="leave-button-fixed"
       :socket="socket"
       :joined="joined"
-      :sessionNumber="sessionNumber"
+      :sessionNumber="currentRoomCode"
     />
 
     <div class="selection-card">
-      <!-- Page d’accueil : Rejoindre ou Créer -->
       <div v-if="!joined" class="session-join">
         <h2 class="session-title">Entrez un numéro de session pour rejoindre</h2>
         <input
@@ -154,16 +78,15 @@ onBeforeUnmount(() => {
           class="session-input"
         />
         <div class="button-group">
-          <button class="join-button" @click="joinSession">Rejoindre</button>
-          <button class="create-button" @click="createSession">Créer</button>
+          <button class="join-button" @click="handleJoin">Rejoindre</button>
+          <button class="create-button" @click="handleCreate">Créer</button>
         </div>
       </div>
 
-      <!-- Après connexion au salon -->
       <div v-else>
         <div class="session-display">
           <p>
-            Salon : <strong>{{ currentRoomCode || sessionNumber }}</strong>
+            Salon : <strong>{{ currentRoomCode }}</strong>
           </p>
           <p>
             Joueurs connectés : <strong>{{ playerCount }}/3</strong>

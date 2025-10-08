@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { ref, Ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
 
 interface Props {
   socket: WebSocket | null
@@ -15,6 +15,7 @@ function leaveRoom() {
     props.socket.send(JSON.stringify({ type: 'leaveRoom' }))
     console.log('Départ du salon demandé...')
   }
+
   props.joined.value = false
   props.sessionNumber.value = ''
 }
