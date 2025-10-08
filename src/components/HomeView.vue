@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
-import backgroundImage from '@/components/images/Background.png'
+import backgroundImage from '@/components/images/Background1.jpg'
 
 const router = useRouter()
 const showInstructions = ref(false)
@@ -52,19 +52,21 @@ function startGame() {
 <style scoped>
 .home-header h1 {
   font-size: 5rem;
-  color: #f9f2f0;
+  color: #8f2709;
   text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
   margin-bottom: 0.5rem;
-  font-family: 'Brush Script MT', cursive;
+  font-family: 'Poppins';
   margin-top: -10rem;
 }
 .home-header h2 {
   font-size: 5rem;
-  color: #f9f2f0;
+  color: #8f2709;
   text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
   margin-bottom: 0.5rem;
-  font-family: 'Brush Script MT', cursive;
-  margin-top: -3rem;
+  font-family:
+    Cascadia Code,
+    monospace;
+  margin-top: -0, 5rem;
 }
 /* Carte instructions */
 .instructions {
@@ -101,17 +103,41 @@ function startGame() {
 }
 
 .start-button {
-  background: linear-gradient(135deg, #ff6f61, #f9d342, #6b4f4f);
-  color: #fff;
+  background-image: url('src/components/images/background4.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #474646;
   font-weight: bold;
   font-size: 1.6rem;
   padding: 1rem 2.5rem;
   border: none;
-  border-radius: 25px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.4s ease;
-  box-shadow: 0 0 25px rgba(255, 111, 97, 0.7);
-  font-family: 'Cursive', sans-serif;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 6px 15px rgba(0, 0, 0, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  font-family:
+    Cascadia Code,
+    monospace;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* Effet au survol */
+.start-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.3),
+    inset 0 1px 3px rgba(255, 255, 255, 0.5);
+}
+
+/* Effet au survol */
+.start-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.3),
+    inset 0 1px 3px rgba(255, 255, 255, 0.5);
 }
 
 .start-button:hover {

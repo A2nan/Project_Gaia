@@ -1,17 +1,28 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
-import backgroundImage from '@/components/images/Background3.jpg'
+import backgroundImage from '@/components/images/Background.png'
 
-const player1Hint = ' La première lettre est A'
-const player2Hint = ' La dernière lettre est E'
+const router = useRouter()
+
+const player1Hint = 'La première lettre est A'
+const player2Hint = 'La dernière lettre est E'
 
 const guess = ref('')
 const result = ref<boolean | null>(null)
 const finalWord = 'APPLE'
 
 function checkGuess() {
-  result.value = guess.value.toUpperCase() === finalWord
+  if (guess.value.toUpperCase() === finalWord) {
+    result.value = true
+    // Redirection après 2 secondes
+    setTimeout(() => {
+      router.push('/next')
+    }, 2000)
+  } else {
+    result.value = false
+  }
 }
 </script>
 

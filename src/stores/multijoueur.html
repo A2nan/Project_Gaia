@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Salons Privés</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      button {
+        padding: 8px 16px;
+        margin: 5px;
+      }
+      input {
+        padding: 8px;
+        margin: 5px;
+      }
+      #roomCodeDisplay {
+        font-weight: bold;
+        color: blue;
+      }
+      #playerCount {
+        font-weight: bold;
+        color: green;
+      }
+      #messages {
+        margin-top: 20px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        height: 100px;
+        overflow-y: scroll;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Gestion des Salons Privés</h1>
+
+    <div>
+      <button onclick="createRoom()">Créer un salon</button>
+      <button onclick="leaveRoom()">Quitter le salon</button>
+      <div>Code du salon : <span id="roomCodeDisplay">Aucun</span></div>
+      <div>Joueurs : <span id="playerCount">0/3</span></div>
+    </div>
+
+    <div>
+      <input type="text" id="roomCodeInput" placeholder="Code du salon" />
+      <button onclick="joinRoom()">Rejoindre le salon</button>
+    </div>
+
+    <div id="messages"></div>
+
+    <script>
+              let currentRoomCode = null;
+              let socket;
+              const roomCodeDisplay = document.getElementById('roomCodeDisplay');
+              const playerCountElement = document.getElementById('playerCount');
+              const messagesElement = document.getElementById('messages');
+
+              // Connexion au serveur WebSocket
+              function connect() {
+                  socket = new WebSocket('ws://10.0.3.241:8080');
+
+                  socket.onopen = () => {
+                      logMessage('Connecté au serveur WebSocket');
+                  };
+
+                  socket.onmessage = (event) => {
+                      const data = JSON.parse(event.data);
+                      if (data.type === 'roomCreated') {
+                          currentRoomCode = data.roomCode;
+                          roomCodeDisplay.textContent = data.roomCode;
+                          playerCountElement.textContent = `${data.playerCount}/3`;
+                          logMessage(`Salon créé et rejoint : ${data.roomCode}`);
+                      } else if (data.type === 'roomJoined') {
+                          currentRoomCode = data.roomCode;
+                          roomCodeDisplay.textContent = data.roomCode;
+                          playerCountElement.textContent = `${data.playerCount}/3`;
+                          logMessage(`Rejoint le salon : ${data.roomCode}`);
+                      } else if (data.type === 'roomLeft') {
+                          currentRoomCode = null;
+                          roomCodeDisplay.textContent = 'Aucun';
+                          playerCountElement.textContent = '0/3';
+                          logMessage(data.message);
+                      } else if (data.type === 'info') {
+                          logMessage(data.message);
+                          if (data.playerCount !== undefined) {
+                              playerCountElement.textContent = `${data.playerCount}/3`;
+                          }
+                      } else if (data.type === 'error') {
+                          logMessage(`Erreur : ${data.message}`);
+                      }
+                  };
+
+                  socket.onerror = (error) => {
+                      logMessage(`Erreur WebSocket : ${error.message}`);
+                  };
+
+                  socket.onclose = () => {
+                      logMessage('Déconnecté du serveur');
+                  };
+              }
+
+              // Crée un nouveau salon
+              function createRoom() {
+                  if (socket && socket.readyState === WebSocket.OPEN) {
+                      socket.send(JSON.stringify({ type: 'createRoom' }));
+                      logMessage('Création du salon en cours...');
+                  } else {
+                      logMessage('Non connecté au serveur');
+                  }
+              }
+
+              // Rejoint un salon existant
+              function joinRoom() {
+                  const roomCode = document.getElementById('roomCodeInput').value.trim();
+                  if (roomCode && socket && socket.readyState === WebSocket.OPEN) {
+                      socket.send(JSON.stringify({ type: 'joinRoom', roomCode }));
+                  } else {
+                      logMessage('Code de salon invalide ou non connecté');
+                  }
+      ... (24lignes restantes)
+      Réduire
+      multijoueur.html
+      5 Ko
+      ﻿
+      Yosho
+      yosho8825
+
+      <!DOCTYPE html>
+      <html lang="fr">
+      <head>
+          <meta charset="UTF-8">
+          <title>Salons Privés</title>
+          <style>
+              body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+              button { padding: 8px 16px; margin: 5px; }
+              input { padding: 8px; margin: 5px; }
+              #roomCodeDisplay { font-weight: bold; color: blue; }
+              #playerCount { font-weight: bold; color: green; }
+              #messages { margin-top: 20px; border: 1px solid #ccc; padding: 10px; height: 100px; overflow-y: scroll; }
+          </style>
+      </head>
+      <body>
+          <h1>Gestion des Salons Privés</h1>
+
+          <div>
+              <button onclick="createRoom()">Créer un salon</button>
+              <button onclick="leaveRoom()">Quitter le salon</button>
+              <div>Code du salon : <span id="roomCodeDisplay">Aucun</span></div>
+              <div>Joueurs : <span id="playerCount">0/3</span></div>
+          </div>
+
+          <div>
+              <input type="text" id="roomCodeInput" placeholder="Code du salon">
+              <button onclick="joinRoom()">Rejoindre le salon</button>
+          </div>
+
+          <div id="messages"></div>
+
+          <script>
+              let currentRoomCode = null;
+              let socket;
+              const roomCodeDisplay = document.getElementById('roomCodeDisplay');
+              const playerCountElement = document.getElementById('playerCount');
+              const messagesElement = document.getElementById('messages');
+
+              // Connexion au serveur WebSocket
+              function connect() {
+                  socket = new WebSocket('ws://10.0.3.241:8080');
+
+                  socket.onopen = () => {
+                      logMessage('Connecté au serveur WebSocket');
+                  };
+
+                  socket.onmessage = (event) => {
+                      const data = JSON.parse(event.data);
+                      if (data.type === 'roomCreated') {
+                          currentRoomCode = data.roomCode;
+                          roomCodeDisplay.textContent = data.roomCode;
+                          playerCountElement.textContent = `${data.playerCount}/3`;
+                          logMessage(`Salon créé et rejoint : ${data.roomCode}`);
+                      } else if (data.type === 'roomJoined') {
+                          currentRoomCode = data.roomCode;
+                          roomCodeDisplay.textContent = data.roomCode;
+                          playerCountElement.textContent = `${data.playerCount}/3`;
+                          logMessage(`Rejoint le salon : ${data.roomCode}`);
+                      } else if (data.type === 'roomLeft') {
+                          currentRoomCode = null;
+                          roomCodeDisplay.textContent = 'Aucun';
+                          playerCountElement.textContent = '0/3';
+                          logMessage(data.message);
+                      } else if (data.type === 'info') {
+                          logMessage(data.message);
+                          if (data.playerCount !== undefined) {
+                              playerCountElement.textContent = `${data.playerCount}/3`;
+                          }
+                      } else if (data.type === 'error') {
+                          logMessage(`Erreur : ${data.message}`);
+                      }
+                  };
+
+                  socket.onerror = (error) => {
+                      logMessage(`Erreur WebSocket : ${error.message}`);
+                  };
+
+                  socket.onclose = () => {
+                      logMessage('Déconnecté du serveur');
+                  };
+              }
+
+              // Crée un nouveau salon
+              function createRoom() {
+                  if (socket && socket.readyState === WebSocket.OPEN) {
+                      socket.send(JSON.stringify({ type: 'createRoom' }));
+                      logMessage('Création du salon en cours...');
+                  } else {
+                      logMessage('Non connecté au serveur');
+                  }
+              }
+
+              // Rejoint un salon existant
+              function joinRoom() {
+                  const roomCode = document.getElementById('roomCodeInput').value.trim();
+                  if (roomCode && socket && socket.readyState === WebSocket.OPEN) {
+                      socket.send(JSON.stringify({ type: 'joinRoom', roomCode }));
+                  } else {
+                      logMessage('Code de salon invalide ou non connecté');
+                  }
+              }
+
+              // Quitte le salon actuel
+              function leaveRoom() {
+                  if (socket && socket.readyState === WebSocket.OPEN) {
+                      socket.send(JSON.stringify({ type: 'leaveRoom' }));
+                      logMessage('Demande de départ du salon envoyée...');
+                  } else {
+                      logMessage('Non connecté au serveur');
+                  }
+              }
+
+              // Affiche un message dans la zone de log
+              function logMessage(message) {
+                  messagesElement.innerHTML += `<div>${message}</div>`;
+                  messagesElement.scrollTop = messagesElement.scrollHeight;
+              }
+
+              // Connexion automatique au chargement de la page
+              connect();
+    </script>
+  </body>
+</html>

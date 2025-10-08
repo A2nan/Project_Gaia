@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
-import backgroundImage from '@/components/images/Background3.jpg'
+import backgroundImage from '@/components/images/Background.png'
 
 // Props
 const props = defineProps<{ player: number }>()
