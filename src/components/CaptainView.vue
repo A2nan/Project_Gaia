@@ -7,13 +7,8 @@
       </header>
 
       <section class="hints-section">
-        <div class="hint-card">
-          <h3>Indice Joueur 1</h3>
-          <p>{{ player1Hint }}</p>
-        </div>
-        <div class="hint-card">
-          <h3>Indice Joueur 2</h3>
-          <p>{{ player2Hint }}</p>
+        <div class="puzzle-wrapper">
+          <Captain />
         </div>
       </section>
 
@@ -43,9 +38,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-
-const player1Hint = ' La première lettre est A'
-const player2Hint = ' La dernière lettre est E'
+import Captain from '@/components/puzzle/roles/Captain.vue'
 
 const guess = ref('')
 const result = ref<boolean | null>(null)
@@ -57,6 +50,12 @@ function checkGuess() {
 </script>
 
 <style scoped>
+.puzzle-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 1rem auto 2rem;
+}
+
 /* Arrière-plan immersif */
 .captain-container {
   min-height: 100vh;
@@ -106,20 +105,6 @@ function checkGuess() {
   flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 2.5rem;
-}
-
-.hint-card {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  border-radius: 15px;
-  padding: 1rem 1.5rem;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
-  transition: all 0.3s ease;
-}
-
-.hint-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
 }
 
 .hint-card h3 {
@@ -198,17 +183,6 @@ function checkGuess() {
   background: rgba(255, 0, 0, 0.2);
   color: #ff8a8a;
   box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
-}
-
-/* Animations */
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.5s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
 }
 
 @keyframes fadeIn {

@@ -2,15 +2,20 @@
   <main class="player-container">
     <div class="player-panel">
       <header class="header">
-        <h1 class="title">Joueur {{ props.player }}</h1>
-        <p class="subtitle">Analyse ton indice et aide le capitaine à deviner le mot secret !</p>
+        <h1 v-if="props.player === 1" class="title">🐺 Volpe</h1>
+        <h1 v-if="props.player === 2" class="title">🦁 Leone</h1>
+        <p v-if="props.player === 1" class="subtitle">
+          Décris chaque case (1→9) au Capitaine : couleurs, formes, mains, ciel, personnages…
+        </p>
+
+        <p v-if="props.player === 2" class="subtitle">
+          Indique au Capitaine quelle lettre correspond à ce que Volpe décrit pour une case donnée.
+        </p>
       </header>
 
       <section class="hint-section">
-        <div class="hint-card">
-          <h3>Ton indice</h3>
-          <p>{{ hint }}</p>
-        </div>
+        <Volpe v-if="props.player === 1" />
+        <Leone v-else />
       </section>
 
       <section class="info-section">
@@ -23,16 +28,18 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+// Import des rôles
+import Leone from '@/components/puzzle/roles/Leone.vue'
+import Volpe from '@/components/puzzle/roles/Volpe.vue'
+
 // Props
 const props = defineProps<{ player: number }>()
 
-// Hints pour chaque joueur
 const hints: Record<number, string> = {
   1: 'La première lettre est A',
   2: 'La dernière lettre est E',
 }
 
-// Hint calculé pour ce joueur
 const hint = computed(() => hints[props.player] ?? 'Indice non disponible')
 </script>
 
@@ -58,8 +65,8 @@ const hint = computed(() => hints[props.player] ?? 'Indice non disponible')
   border: 2px solid rgba(255, 215, 0, 0.4);
   border-radius: 25px;
   padding: 3rem 4rem;
-  max-width: 600px;
-  width: 60%;
+  max-width: 900px;
+  width: 80%;
   box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
   animation: fadeIn 1s ease forwards;
 }
@@ -79,37 +86,13 @@ const hint = computed(() => hints[props.player] ?? 'Indice non disponible')
   margin-bottom: 2rem;
 }
 
-/* Carte indice */
+/* Carte indice / rôle */
 .hint-section {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
   margin-bottom: 2rem;
-}
-
-.hint-card {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  border-radius: 15px;
-  padding: 1rem 1.5rem;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
-  transition: all 0.3s ease;
-}
-
-.hint-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
-}
-
-.hint-card h3 {
-  color: #ffd700;
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-}
-
-.hint-card p {
-  font-size: 1.1rem;
-  color: #e0e0e0;
 }
 
 /* Section info */

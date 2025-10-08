@@ -19,7 +19,7 @@ const roles = [
   {
     id: 'player1',
     name: 'Volpe',
-    emoji: '🦊',
+    emoji: '🐺',
     description: "L'esprit rusé qui détient un indice précieux pour le capitaine.",
     route: '/player/1',
   },
@@ -175,17 +175,5 @@ function selectRole(route: string) {
 .choose-button:hover {
   transform: scale(1.08);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
-}
-
-/* ANIMATION APPARITION */
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.4s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
 }
 </style>

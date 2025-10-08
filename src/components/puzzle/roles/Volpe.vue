@@ -1,15 +1,12 @@
 <template>
   <div class="wrap">
-    <h2>🦊 Volpe — Modèle numéroté</h2>
+<!--    <h2>Modèle numéroté</h2>-->
     <div class="model">
       <img :src="IMAGE_URL" alt="La Création d’Adam" />
       <div class="grid">
         <div v-for="i in 9" :key="i" class="cell">{{ i }}</div>
       </div>
     </div>
-    <p class="note">
-      Décris chaque case (1→9) au Capitaine : couleurs, formes, mains, ciel, personnages…
-    </p>
   </div>
 </template>
 
@@ -40,5 +37,4 @@ import { IMAGE_URL } from '@/game/config'
   border: 1px dashed rgba(255,255,255,.35);
   text-shadow: 0 1px 2px rgba(0,0,0,.6);
 }
-.note { color: #555; }
 </style>

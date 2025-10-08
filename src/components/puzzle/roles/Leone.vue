@@ -1,21 +1,21 @@
 <template>
   <div class="wrap">
-    <h2>🦁 Leone — Liste des pièces (A→I)</h2>
+
     <div class="list">
       <div v-for="letter in LETTERS" :key="letter" class="item">
-        <div class="thumb" :style="thumbStyle(letter)"></div>
+        <div class="thumb" :style="thumbStyle(letter)">
+          <div class="overlay">
+            <span class="label">{{ letter }}</span>
+          </div>
+        </div>
         <div class="meta">
-          <div class="title">
+          <div class="piece-title">
             Pièce <strong>{{ letter }}</strong>
           </div>
           <div class="desc">{{ descriptions[letter] }}</div>
         </div>
       </div>
     </div>
-    <p class="note">
-      Indique au Capitaine quelle <strong>lettre</strong> correspond à ce que Volpe décrit pour une
-      <strong>case</strong> donnée.
-    </p>
   </div>
 </template>
 
@@ -35,10 +35,6 @@ function thumbStyle(letter: string) {
     backgroundImage: `url(${IMAGE_URL})`,
     backgroundSize: `${BOARD_PX}px ${BOARD_PX}px`,
     backgroundPosition: `-${col * tilePx}px -${row * tilePx}px`,
-    width: '120px',
-    height: '120px',
-    borderRadius: '8px',
-    boxShadow: '0 0 0 1px #ddd inset',
     backgroundRepeat: 'no-repeat',
   }
 }
@@ -46,31 +42,89 @@ function thumbStyle(letter: string) {
 
 <style scoped>
 .wrap {
-  display: grid;
-  gap: 12px;
-}
-.list {
-  display: grid;
-  gap: 10px;
-  max-width: 680px;
-}
-.item {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  background: #fafafa;
+  gap: 2rem;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  color: #fff;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 900px;
+}
+
+/* Carte de chaque pièce */
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+  width: 180px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+}
+
+/* Image miniature bien visible */
+.thumb {
+  position: relative;
+  width: 140px;
+  height: 140px;
   border-radius: 10px;
-  padding: 10px;
-  box-shadow: 0 0 0 1px #eee inset;
+  overflow: hidden;
+  background-color: #000;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+  background-size: cover;
+  background-position: center;
 }
-.meta .title {
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.thumb:hover .overlay {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.label {
+  color: #ffd700;
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+/* Texte de la pièce */
+.meta {
+  margin-top: 0.8rem;
+}
+.piece-title {
+  font-size: 1.2rem;
+  color: #ffd700;
   font-weight: 700;
+  margin-bottom: 0.3rem;
 }
-.meta .desc {
-  color: #555;
-}
-.note {
-  color: #666;
+.desc {
+  font-size: 0.95rem;
+  color: #e0e0e0;
+  line-height: 1.2rem;
 }
 </style>
