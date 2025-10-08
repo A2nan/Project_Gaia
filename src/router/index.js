@@ -3,6 +3,8 @@ import HomeView from '../components/HomeView.vue'
 import RoleSelection from '../components/RoleSelection.vue'
 import PlayerView from '../components/PlayerView.vue'
 import CaptainView from '../components/CaptainView.vue'
+import NextView from '../components/NextView.vue'
+import LeaveRoomButton from '../components/LeaveRoomButton.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
@@ -14,6 +16,8 @@ const routes = [
     props: (route) => ({ player: Number(route.params.id) }),
   },
   { path: '/captain', name: 'captain', component: CaptainView },
+  { path: '/next', name: 'next', component: NextView },
+  { path: '/LeaveRoomButton', name: 'LeaveRoomButton', component: LeaveRoomButton },
 ]
 
 const router = createRouter({

@@ -1,5 +1,31 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
+import backgroundImage from '@/components/images/Background.png'
+import Captain from '@/components/puzzle/roles/Captain.vue'
+
+const router = useRouter()
+
+const guess = ref('')
+const result = ref<boolean | null>(null)
+const finalWord = 'APPLE'
+
+function checkGuess() {
+  if (guess.value.toUpperCase() === finalWord) {
+    result.value = true
+    // Redirection après 2 secondes
+    setTimeout(() => {
+      router.push('/next')
+    }, 2000)
+  } else {
+    result.value = false
+  }
+}
+</script>
+
 <template>
-  <main class="captain-container">
+  <FullScreenWrapper :background="backgroundImage">
     <div class="captain-panel">
       <header class="header">
         <h1 class="title">🧭 Poste du Capitaine</h1>
@@ -33,21 +59,8 @@
         </div>
       </transition>
     </div>
-  </main>
+  </FullScreenWrapper>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import Captain from '@/components/puzzle/roles/Captain.vue'
-
-const guess = ref('')
-const result = ref<boolean | null>(null)
-const finalWord = 'APPLE'
-
-function checkGuess() {
-  result.value = guess.value.toUpperCase() === finalWord
-}
-</script>
 
 <style scoped>
 .puzzle-wrapper {

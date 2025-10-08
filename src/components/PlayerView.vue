@@ -1,5 +1,16 @@
+<script setup lang="ts">
+import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
+import backgroundImage from '@/components/images/Background.png'
+import Volpe from '@/components/puzzle/roles/Volpe.vue'
+import Leone from '@/components/puzzle/roles/Leone.vue'
+
+// Props
+const props = defineProps<{ player: number }>()
+
+</script>
+
 <template>
-  <main class="player-container">
+  <FullScreenWrapper :background="backgroundImage">
     <div class="player-panel">
       <header class="header">
         <h1 v-if="props.player === 1" class="title">🐺 Volpe</h1>
@@ -22,26 +33,8 @@
         <p>💡 Partage ton indice avec le capitaine pour qu’il puisse trouver le mot final.</p>
       </section>
     </div>
-  </main>
+  </FullScreenWrapper>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-
-// Import des rôles
-import Leone from '@/components/puzzle/roles/Leone.vue'
-import Volpe from '@/components/puzzle/roles/Volpe.vue'
-
-// Props
-const props = defineProps<{ player: number }>()
-
-const hints: Record<number, string> = {
-  1: 'La première lettre est A',
-  2: 'La dernière lettre est E',
-}
-
-const hint = computed(() => hints[props.player] ?? 'Indice non disponible')
-</script>
 
 <style scoped>
 /* Fond et container */
