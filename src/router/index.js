@@ -5,6 +5,9 @@ import PlayerView from '../components/PlayerView.vue'
 import CaptainView from '../components/CaptainView.vue'
 import NextView from '../components/tableau/NextView.vue'
 import LeaveRoomButton from '../components/LeaveRoomButton.vue'
+import FriseView from '../components/FriseView/FriseView.vue'
+import VulpeFriseView from '../components/FriseView/VulpeFriseView.vue'
+import LeoneFriseView from '../components/FriseView/LeoneFriseView.vue'
 import PlayerVue from '@/components/tableau/PlayerVue.vue'
 import PageFin from '../components/PageFin.vue'
 import Prince4 from '../components/Enigme4/Prince4.vue'
@@ -23,6 +26,9 @@ const routes = [
   { path: '/captain', name: 'captain', component: CaptainView },
   { path: '/next', name: 'next', component: NextView },
   { path: '/LeaveRoomButton', name: 'LeaveRoomButton', component: LeaveRoomButton },
+  { path: '/FriseChronoPrince', name: 'FriseChronoPrince', component: FriseView },
+  { path: '/FriseChronoVulpe', name: 'FriseChronoVulpe', component: VulpeFriseView },
+  { path: '/FriseChronoLeone', name: 'FriseChronoLeone', component: LeoneFriseView },
   { path: '/PageFin', name: 'PageFin', component: PageFin },
 
   { path: '/Prince4', name: 'Prince', component: Prince4 },
