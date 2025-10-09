@@ -9,7 +9,7 @@ const router = useRouter()
 
 const guess = ref('')
 const result = ref<boolean | null>(null)
-const finalWord = 'APPLE'
+const finalWord = 'VERITAS'
 
 function checkGuess() {
   if (guess.value.toUpperCase() === finalWord) {
