@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMultiplayer } from '@/composables/useMultiplayer.ts'
+import { useMultiplayer } from '@/composables/useMultiplayer'
 
 interface Props {
   socket: WebSocket | null
