@@ -2,14 +2,14 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
-import backgroundImage from '@/components/images/Background.png'
+import backgroundImage from '@/components/images/BackgroundJeux.png'
 import Captain from '@/components/puzzle/roles/Captain.vue'
 
 const router = useRouter()
 
 const guess = ref('')
 const result = ref<boolean | null>(null)
-const finalWord = 'APPLE'
+const finalWord = 'VERITAS'
 
 function checkGuess() {
   if (guess.value.toUpperCase() === finalWord) {

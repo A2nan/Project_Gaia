@@ -141,7 +141,7 @@ const solved = computed(() =>
 const showReveal = computed(() => solved.value)
 
 const statusText = computed(() => {
-  return solved.value ? 'Mot secret : APPLE' : ''
+  return solved.value ? 'Mot secret : VERITAS' : ''
 })
 </script>
 
