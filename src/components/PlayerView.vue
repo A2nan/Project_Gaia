@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
-import backgroundImage from '@/components/images/Background.png'
+import backgroundImage from '@/components/images//BackgroundJeux.png'
 import Volpe from '@/components/puzzle/roles/Volpe.vue'
 import Leone from '@/components/puzzle/roles/Leone.vue'
 
 // Props
 const props = defineProps<{ player: number }>()
-
 </script>
 
 <template>

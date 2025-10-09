@@ -7,6 +7,9 @@ import NextView from '../components/tableau/NextView.vue'
 import LeaveRoomButton from '../components/LeaveRoomButton.vue'
 import PlayerVue from '@/components/tableau/PlayerVue.vue'
 import PageFin from '../components/PageFin.vue'
+import Prince4 from '../components/Enigme4/Prince4.vue'
+import Volpe4 from '../components/Enigme4/Volpe4.vue'
+import Leone4 from '../components/Enigme4/Leone4.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
@@ -21,6 +24,10 @@ const routes = [
   { path: '/next', name: 'next', component: NextView },
   { path: '/LeaveRoomButton', name: 'LeaveRoomButton', component: LeaveRoomButton },
   { path: '/PageFin', name: 'PageFin', component: PageFin },
+
+  { path: '/Prince4', name: 'Prince', component: Prince4 },
+  { path: '/Leone4', name: 'Leone', component: Leone4 },
+  { path: '/Volpe4', name: 'Volpe', component: Volpe4 },
   { path: '/playervue', name: 'NextPlayer', component: PlayerVue },
 ]
 

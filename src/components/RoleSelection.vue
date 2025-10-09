@@ -7,14 +7,15 @@ import backgroundImage from '@/components/images/Background6.png'
 import LeaveRoomButton from '@/components/LeaveRoomButton.vue'
 
 const router = useRouter()
-const { currentRoomCode, playerCount, joined, createRoom, joinRoom, leaveRoom } = useMultiplayer()
+const { currentRoomCode, playerCount, joined, createRoom, joinRoom, leaveRoom, setRole } =
+  useMultiplayer()
 const sessionNumber = ref('')
-const activeRole = ref<string | null>(null)
+const activeRole = ref<string | null>(null) // sélection locale pour l'affichage
 
 const roles = [
   {
     id: 'captain',
-    name: 'Capitaine',
+    name: 'Prince',
     emoji: '👑',
     description:
       'Devenir le meneur du groupe et rassembler les indices pour résoudre le mot final.',
@@ -40,8 +41,10 @@ function toggleRole(roleId: string) {
   activeRole.value = activeRole.value === roleId ? null : roleId
 }
 
-function selectRole(route: string) {
-  router.push(route)
+// 🔹 Modifié : on stocke le rôle via useMultiplayer et on navigue
+function selectRole(route: string, roleId: string) {
+  setRole(roleId) // stocke le rôle dans le composable et envoie au serveur
+  router.push(route) // navigue vers l'écran correspondant
 }
 
 function handleCreate() {

@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { ref, Ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useMultiplayer } from '@/composables/useMultiplayer'
 
 interface Props {
   socket: WebSocket | null
-  joined: Ref<boolean>
-  sessionNumber: Ref<string>
+  joined: boolean
+  sessionNumber: string | null
 }
 
 const props = defineProps<Props>()
+const { leaveRoom } = useMultiplayer()
 
-function leaveRoom() {
+function handleLeave() {
   if (props.socket && props.socket.readyState === WebSocket.OPEN) {
     props.socket.send(JSON.stringify({ type: 'leaveRoom' }))
-    console.log('Départ du salon demandé...')
+    console.log('🟡 Demande de départ envoyée au serveur...')
   }
 
-  props.joined.value = false
-  props.sessionNumber.value = ''
+  // Appelle la fonction du composable pour mettre à jour les états globaux
+  leaveRoom()
 }
 </script>
 
 <template>
-  <button class="leave-button" @click="leaveRoom" style="margin-top: 10px">Quitter le salon</button>
+  <button class="leave-button" @click="handleLeave">Quitter le salon</button>
 </template>
 
 <style scoped>

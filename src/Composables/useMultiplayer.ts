@@ -4,6 +4,7 @@ const socket = ref<WebSocket | null>(null)
 const currentRoomCode = ref<string | null>(null)
 const playerCount = ref<number>(0)
 const joined = ref(false)
+const playerRole = ref<string | null>(null) // Nouveau : rôle choisi par le joueur
 
 export function useMultiplayer() {
   function connect(roomCode?: string) {
@@ -37,6 +38,9 @@ export function useMultiplayer() {
           console.log(`[WebSocket] Info : ${data.message}`)
           if (data.playerCount !== undefined) playerCount.value = data.playerCount
           break
+        case 'playerRoles': // Nouveau : réception des rôles des joueurs
+          console.log('[WebSocket] Rôles des joueurs :', data.roles)
+          break
         case 'roomLeft':
           leaveRoom()
           console.log('[WebSocket] Salon quitté')
@@ -53,6 +57,7 @@ export function useMultiplayer() {
       joined.value = false
       currentRoomCode.value = null
       playerCount.value = 0
+      playerRole.value = null
 
       // 🔁 Reconnexion automatique si la page est encore active
       setTimeout(() => {
@@ -94,7 +99,33 @@ export function useMultiplayer() {
     joined.value = false
     currentRoomCode.value = null
     playerCount.value = 0
+    playerRole.value = null
   }
 
-  return { socket, currentRoomCode, playerCount, joined, connect, createRoom, joinRoom, leaveRoom }
+  // Nouveau : définir le rôle et l’envoyer au serveur
+  function setRole(roleId: string) {
+    playerRole.value = roleId
+    if (socket.value && socket.value.readyState === WebSocket.OPEN && currentRoomCode.value) {
+      socket.value.send(
+        JSON.stringify({
+          type: 'setRole',
+          roomCode: currentRoomCode.value,
+          role: roleId,
+        }),
+      )
+    }
+  }
+
+  return {
+    socket,
+    currentRoomCode,
+    playerCount,
+    joined,
+    playerRole, // Nouveau
+    connect,
+    createRoom,
+    joinRoom,
+    leaveRoom,
+    setRole, // Nouveau
+  }
 }
