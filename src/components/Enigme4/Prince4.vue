@@ -23,9 +23,28 @@ const crowns = ref([
 
 // Générer des positions aléatoires pour chaque couronne au montage
 onMounted(() => {
+  const positions: { top: number; left: number }[] = []
+
   crowns.value.forEach((c) => {
-    c.top = `${Math.random() * 70 + 5}%` // entre 5% et 75%
-    c.left = `${Math.random() * 80 + 5}%` // entre 5% et 85%
+    let top: number, left: number
+    let tries = 0
+
+    do {
+      top = Math.random() * 70 + 5
+      left = Math.random() * 80 + 5
+      tries++
+    } while (
+      positions.some(
+        (p) =>
+          Math.abs(p.top - top) < 10 && // espace vertical minimum 10%
+          Math.abs(p.left - left) < 10, // espace horizontal minimum 10%
+      ) &&
+      tries < 100
+    )
+
+    positions.push({ top, left })
+    c.top = `${top}%`
+    c.left = `${left}%`
   })
 })
 

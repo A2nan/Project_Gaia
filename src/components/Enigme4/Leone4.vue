@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
 import backgroundImage from '@/components/images/BackgroundJeux.png'
 
 const revealed = ref(false)
+const router = useRouter()
+
 function revealHint() {
   revealed.value = true
+}
+
+function goNext() {
+  router.push('/ProchainePage') // change le chemin vers la page suivante
 }
 </script>
 
@@ -23,6 +30,8 @@ function revealHint() {
         Seules les lettres en <span class="green-word">vert</span> sur les papiers révèlent le mot
         correct.
       </p>
+
+      <button v-if="revealed" class="next-button" @click="goNext">Suivante</button>
     </div>
   </FullScreenWrapper>
 </template>
@@ -76,12 +85,30 @@ function revealHint() {
 
 .hint-text {
   margin-top: 1.5rem;
-  color: #ffffff; /* texte principal blanc */
+  color: #ffffff;
   font-size: 1.3rem;
   font-weight: bold;
 }
 
 .green-word {
-  color: #90ee90; /* mot "vert" en vert */
+  color: #90ee90;
+}
+
+.next-button {
+  margin-top: 2rem;
+  padding: 0.4rem 1rem;
+  border-radius: 15px;
+  border: none;
+  background: linear-gradient(135deg, #ffd700);
+  cursor: pointer;
+  font-weight: bold;
+  color: #222;
+  font-size: 1.1rem;
+  transition: 0.3s ease;
+}
+
+.next-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
 }
 </style>
