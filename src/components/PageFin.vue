@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
-import backgroundImage from '@/components/images/background4.jpg'
+import backgroundImage from '@/components/images/BackgroundFin.jpg'
 
 const router = useRouter()
 
@@ -70,7 +70,6 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(5px);
 }
 
 .content {
@@ -145,28 +144,6 @@ h1 {
 .home-button:hover {
   transform: scale(1.08);
   box-shadow: 0 0 35px rgba(255, 200, 100, 0.6);
-}
-
-/* Confettis */
-.confetti-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.confetti {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: #f3e5ab;
-  top: -10px;
-  left: calc(var(--x, 50%) * 1%);
-  opacity: 0.8;
-  animation: fall linear infinite;
-  animation-duration: calc(2s + var(--i) * 0.1s);
-  border-radius: 50%;
 }
 
 @keyframes fall {

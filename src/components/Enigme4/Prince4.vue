@@ -7,18 +7,19 @@ import backgroundImage from '@/components/images/BackgroundJeux.png'
 const router = useRouter()
 const password = ref('')
 const result = ref<boolean | null>(null)
-const correctPassword = 'MONALIZA'
+const correctPassword = 'Monna lisa'
 
 // Chaque couronne contient un mot et une lettre en vert
 const crowns = ref([
   { id: 1, word: 'Musée', greenLetter: 'M', revealed: false, top: '0%', left: '0%' },
   { id: 2, word: 'Ovale', greenLetter: 'O', revealed: false, top: '0%', left: '0%' },
   { id: 3, word: 'Nuit', greenLetter: 'N', revealed: false, top: '0%', left: '0%' },
-  { id: 4, word: 'Art', greenLetter: 'A', revealed: false, top: '0%', left: '0%' },
-  { id: 5, word: 'Louvre', greenLetter: 'L', revealed: false, top: '0%', left: '0%' },
-  { id: 6, word: 'Italie', greenLetter: 'I', revealed: false, top: '0%', left: '0%' },
-  { id: 7, word: 'Zèbre', greenLetter: 'Z', revealed: false, top: '0%', left: '0%' },
-  { id: 8, word: 'Aquarelle', greenLetter: 'A', revealed: false, top: '0%', left: '0%' },
+  { id: 4, word: 'Nomade', greenLetter: 'N', revealed: false, top: '0%', left: '0%' },
+  { id: 5, word: 'Art', greenLetter: 'A', revealed: false, top: '0%', left: '0%' },
+  { id: 6, word: 'Louvre', greenLetter: 'L', revealed: false, top: '0%', left: '0%' },
+  { id: 7, word: 'Italie', greenLetter: 'I', revealed: false, top: '0%', left: '0%' },
+  { id: 8, word: 'Sculpture', greenLetter: 'S', revealed: false, top: '0%', left: '0%' },
+  { id: 9, word: 'Aquarelle', greenLetter: 'A', revealed: false, top: '0%', left: '0%' },
 ])
 
 // Générer des positions aléatoires pour chaque couronne au montage
@@ -34,11 +35,7 @@ onMounted(() => {
       left = Math.random() * 80 + 5
       tries++
     } while (
-      positions.some(
-        (p) =>
-          Math.abs(p.top - top) < 10 && // espace vertical minimum 10%
-          Math.abs(p.left - left) < 10, // espace horizontal minimum 10%
-      ) &&
+      positions.some((p) => Math.abs(p.top - top) < 10 && Math.abs(p.left - left) < 10) &&
       tries < 100
     )
 
@@ -54,7 +51,7 @@ function revealCrown(id: number) {
 }
 
 function checkPassword() {
-  if (password.value.toUpperCase() === correctPassword) {
+  if (password.value.toUpperCase() === correctPassword.toUpperCase()) {
     result.value = true
     setTimeout(() => router.push('/PageFin'), 2000)
   } else {
