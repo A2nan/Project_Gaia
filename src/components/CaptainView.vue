@@ -16,7 +16,7 @@ function checkGuess() {
     result.value = true
     // Redirection après 2 secondes
     setTimeout(() => {
-      router.push('/next')
+      router.push('/Prince4')
     }, 2000)
   } else {
     result.value = false

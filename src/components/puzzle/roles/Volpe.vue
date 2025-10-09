@@ -49,7 +49,7 @@ function checkGuess() {
     result.value = true
     // Redirection après 2 secondes (même logique que la page Capitaine)
     setTimeout(() => {
-      router.push('/playervue')
+      router.push('/volpe4')
     }, 2000)
   } else {
     result.value = false

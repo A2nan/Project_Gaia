@@ -53,7 +53,7 @@ function revealCrown(id: number) {
 function checkPassword() {
   if (password.value.toUpperCase() === correctPassword.toUpperCase()) {
     result.value = true
-    setTimeout(() => router.push('/PageFin'), 2000)
+    setTimeout(() => router.push('/FriseChronoPrince'), 2000)
   } else {
     result.value = false
   }

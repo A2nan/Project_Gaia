@@ -2,8 +2,11 @@
 import { ref } from 'vue'
 import FullScreenWrapper from '@/components/FullScreenWrapper.vue'
 import backgroundImage from '@/components/images/Background1.jpg'
+import { useRouter } from 'vue-router'   // ⬅️ ajouté
 
 interface Artist { name: string; image: string }
+
+const router = useRouter()               // ⬅️ ajouté
 
 const artists: Artist[] = [
   { name: 'Giotto di Bondone',     image: new URL('@/components/images/giotto.jpg',     import.meta.url).href },
@@ -28,7 +31,7 @@ function shuffle<T>(arr: T[]): T[] {
   const a = arr.slice()
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
-    const t = a[i]; a[i] = a[j]; a[j] = t
+    ;[a[i], a[j]] = [a[j], a[i]]
   }
   return a
 }
@@ -67,27 +70,29 @@ function getRandomMachiavelQuote() {
   return quotes[Math.floor(Math.random() * quotes.length)]
 }
 
-/* ===== MODIFIÉ: validate() déclenche bulle + classe d’erreur ===== */
+/* ===== MODIFIÉ: redirige vers /next au clic ===== */
 function validate() {
   const placed = slots.value.map(s => s?.name)
   if (placed.includes(undefined)) {
     message.value = '⚠️ Placez les six artistes avant de valider.'
-    return
-  }
-  const ok = placed.every((n, i) => n === correctOrder[i])
-  if (ok) {
-    message.value = '✨ Bravo ! L’ordre est parfait. Mot secret : VIRTUS'
-    showBubble.value = false
   } else {
-    message.value = '❌ L’ordre n’est pas exact. Réessayez en vous coordonnant.'
-    if (!showBubble.value) {
-      bubbleText.value = getRandomMachiavelQuote()
-      showBubble.value = true
-      setTimeout(() => { showBubble.value = false }, 5000)
+    const ok = placed.every((n, i) => n === correctOrder[i])
+    if (ok) {
+      message.value = '✨ Bravo ! L’ordre est parfait. Mot secret : VIRTUS'
+      setTimeout(() => router.push('/next'), 5000)
+      showBubble.value = false
+    } else {
+      message.value = '❌ L’ordre n’est pas exact. Réessayez en vous coordonnant.'
+      if (!showBubble.value) {
+        bubbleText.value = getRandomMachiavelQuote()
+        showBubble.value = true
+        setTimeout(() => { showBubble.value = false }, 5000)
+      }
     }
   }
 }
 </script>
+
 
 <template>
   <FullScreenWrapper :background="backgroundImage">

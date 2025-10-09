@@ -21,7 +21,7 @@ function goNext() {
   if (!canValidate.value) return
   if (showSuccess.value) return
   showSuccess.value = true
-  timer = window.setTimeout(() => router.push('/playervue'), REDIRECT_DELAY)
+  timer = window.setTimeout(() => router.push('/PageFin'), REDIRECT_DELAY)
 }
 
 type HintGroup = {

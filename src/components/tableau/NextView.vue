@@ -66,7 +66,7 @@ function validateAll() {
   if (allGood) {
     success.value = true
     message.value = '🎉 Bravo ! Les 3 titres sont corrects.'
-    setTimeout(() => router.push('/nextview'), 5000)
+    setTimeout(() => router.push('/pagefin'), 5000)
   } else {
     success.value = false
     message.value = '❌ Il y a au moins une erreur. Réessaie !'

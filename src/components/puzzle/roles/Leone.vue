@@ -77,7 +77,7 @@ function triggerSuccess() {
   if (!canValidate.value) return
   if (showSuccess.value) return
   showSuccess.value = true
-  timer = window.setTimeout(() => router.push('/playervue'), REDIRECT_DELAY)
+  timer = window.setTimeout(() => router.push('/leone4'), REDIRECT_DELAY)
 }
 
 onUnmounted(() => {

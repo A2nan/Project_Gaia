@@ -12,7 +12,7 @@ function revealHint() {
 }
 
 function goNext() {
-  router.push('/ProchainePage') // change le chemin vers la page suivante
+  router.push('/FriseChronoLeone') // change le chemin vers la page suivante
 }
 </script>
 
