@@ -3,8 +3,9 @@ import HomeView from '../components/HomeView.vue'
 import RoleSelection from '../components/RoleSelection.vue'
 import PlayerView from '../components/PlayerView.vue'
 import CaptainView from '../components/CaptainView.vue'
-import NextView from '../components/NextView.vue'
+import NextView from '../components/tableau/NextView.vue'
 import LeaveRoomButton from '../components/LeaveRoomButton.vue'
+import PlayerVue from '@/components/tableau/PlayerVue.vue'
 import PageFin from '../components/PageFin.vue'
 
 const routes = [
@@ -20,6 +21,7 @@ const routes = [
   { path: '/next', name: 'next', component: NextView },
   { path: '/LeaveRoomButton', name: 'LeaveRoomButton', component: LeaveRoomButton },
   { path: '/PageFin', name: 'PageFin', component: PageFin },
+  { path: '/playervue', name: 'NextPlayer', component: PlayerVue },
 ]
 
 const router = createRouter({

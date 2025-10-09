@@ -23,7 +23,7 @@ const roles = [
   {
     id: 'player1',
     name: 'Volpe',
-    emoji: '🦊',
+    emoji: '🐺',
     description: "L'esprit rusé qui détient un indice précieux pour le capitaine.",
     route: '/player/1',
   },
